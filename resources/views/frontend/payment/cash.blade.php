@@ -138,16 +138,15 @@ Cash On Delivery
 </form>
 			</div><!-- /.row -->
 		</div><!-- /.checkout-box -->
-		<!-- === ===== BRANDS CAROUSEL ==== ======== -->
- 
 
 
 
 
-
-
-
-<!-- ===== == BRANDS CAROUSEL : END === === -->	
+         <!-- ============================================== BRANDS CAROUSEL ============================================== -->
+		 <br>
+		 @include('frontend.body.brands')
+		 <!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+		 
 </div><!-- /.container -->
 </div><!-- /.body-content -->
 

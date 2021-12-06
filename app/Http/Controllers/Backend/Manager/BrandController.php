@@ -10,9 +10,13 @@ use Image;
 
 class BrandController extends Controller
 {
+    public static function GetAllBrands(){
+        return Brand::latest()->get();
+    }
+
     public function BrandView()
     {
-        $brands = Brand::latest()->get();
+        $brands = self::GetAllBrands();
         return view('backend.brand.brand_view',compact('brands',));
     }
 
@@ -25,7 +29,7 @@ class BrandController extends Controller
 
         $image = $request->file('brand_image_path');
         $name_gen = hexdec(uniqid()). "." .$image->getClientOriginalExtension();
-        Image::make($image)->resize(300,155)->save('upload/brand/'.$name_gen);
+        Image::make($image)->resize(166,110)->save('upload/brand/'.$name_gen);
         $save_url =$name_gen;
 
         Brand::insert([
@@ -51,7 +55,7 @@ class BrandController extends Controller
             $image = $request->file('brand_image_path');
             $name_gen = hexdec(uniqid()). "." .$image->getClientOriginalExtension();
             unlink('upload/brand/'.$old_img);
-            Image::make($image)->resize(300,300)->save('upload/brand/'.$name_gen);
+            Image::make($image)->resize(166,110)->save('upload/brand/'.$name_gen);
             $save_url =$name_gen;
     
     

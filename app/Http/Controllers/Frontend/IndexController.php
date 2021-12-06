@@ -23,15 +23,13 @@ class IndexController extends Controller
 
         $new_arrival_products = Product::where('product_available_stock','>',0)->where('product_status',1)->where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
 
-
         $featured_products = Product::where('product_status',1)->where('product_status_featured',1)->orderBy('updated_at','ASC')->limit(6)->get();
 
         $new_products = Product::where('product_status',1)->where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
     	$hot_deal_products =  Product::where('product_status',1)->where('product_status_hotdeals',1)->where('product_discount_price','!=',NULL)->orderBy('updated_at','ASC')->limit(3)->get();
 
-        // $special_offer = Product::where('special_offer',1)->orderBy('id','DESC')->limit(6)->get();
     	$special_deals =  Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('updated_at','ASC')->limit(3)->get();
-        $best_seller = Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('product_purchased_cnt','ASC')->limit(8)->get();
+        $best_seller = Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('product_purchased_cnt','ASC')->limit(6)->get();
 
         $skip_category = Category::inRandomOrder()->first();
     	$skip_category_products =  Product::where('product_status',1)->where('category_id',$skip_category->id)->orderBy('id','DESC')->get();
