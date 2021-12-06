@@ -1,0 +1,91 @@
+<style>
+.item a{
+    text-decoration: none;
+    color: #575757;
+    font-size: 14px;
+    line-height: 18px;
+}   
+
+.sidebar{
+    background: #ffffff;  
+    padding: 0;
+}
+
+.sidebar-top{
+    background:  #006cb4;
+    width: 100%; 
+    margin:0;
+    padding: 3rem 1rem;
+}
+
+.user-name{
+    padding: 0;
+    margin: 0;
+}
+
+.text-left{
+    margin: 0; 
+    margin-top: 1rem;
+    color: #fdfcfc;
+}
+
+.email{
+    color: #fdd922;
+}
+
+.active-nav {
+    background: #d2e0e9;
+}
+
+.active-nav:hover {
+    background: #d2e0e9 !important;
+}
+
+</style>
+
+
+
+<div class="sidebar sidebar-main"> 
+
+    <div class="row sidebar-top">
+
+        <div class="col-md-5" >
+            <img class="card-img-top border" style="border-radius: 50%"
+            id="showImage" src="{{ (!empty($user->profile_photo_path))? 
+            url('upload/user_images/'.$user->profile_photo_path):url('upload/no_image.jpg') }}"
+            alt="User Avatar" height="90%" width="90%">
+        </div>
+
+        <div class="col-md-7 user-name"  >
+            <h3 class="text-left">{{Auth::user()->name}}</h3>
+            <small class="email">{{Auth::user()->email}}</small>
+        </div>
+
+    </div>
+
+
+
+    <div class="row" style="padding: 1.5rem; padding-top: 0.5rem;">
+        <div class="col content sidebar">
+
+
+                <ul class="nav nav-sidebar">
+                    <li class="nav item active-nav"> <a href="{{ route('user.profile')}}">My Account</a> </li>
+                    <li class="nav item"> <a href="{{ route('user.orders')}}">My Orders</a> </li> 
+                    <li class="nav item"><a href="{{ route('user.change.password')}}">Change Password</a></li>
+                    <li class="nav item"><a href="{{ route('user.logout')}}">Logout</a></li> 
+                </ul>
+
+                
+
+
+
+
+
+
+            {{-- <ul class="nav nav-pills nav-stacked">
+
+            </ul> --}}
+        </div>
+    </div>
+</div>
