@@ -23,7 +23,9 @@ class CreateProductsTable extends Migration
             $table->string('product_name');
             $table->string('product_slug');
 
-            $table->integer('product_stock');
+            $table->integer('product_available_stock');
+            $table->integer('product_total_stock');
+
             $table->string('product_sku');
             $table->string('product_tags');
             $table->string('product_size');
@@ -31,6 +33,8 @@ class CreateProductsTable extends Migration
 
             $table->float('product_selling_price');
             $table->float('product_discount_price')->nullable();
+            $table->integer('product_purchased_cnt')->default(0);
+
             $table->string('product_location');
             $table->string('product_expiry_date')->nullable();
 

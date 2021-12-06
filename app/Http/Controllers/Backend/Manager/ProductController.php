@@ -41,7 +41,9 @@ class ProductController extends Controller
             'product_name' => $request->product_name,
             'product_slug' =>  strtolower(str_replace(' ', '-', $request->product_name)),
             
-            'product_stock' => $request->product_stock,
+            'product_total_stock' => $request->product_stock,
+            'product_available_stock' => $request->product_stock,
+
             'product_sku' => $request->product_sku,
             'product_tags' => $request->product_tags,
             'product_size' => $request->product_size,
@@ -163,7 +165,9 @@ class ProductController extends Controller
           'product_name' => $request->product_name,
           'product_slug' =>  strtolower(str_replace(' ', '-', $request->product_name)),
           
-          'product_stock' => $request->product_stock,
+          'product_total_stock' => $request->product_stock,
+          'product_available_stock' => $request->product_stock,
+
           'product_sku' => $request->product_sku,
           'product_tags' => $request->product_tags,
           'product_size' => $request->product_size,

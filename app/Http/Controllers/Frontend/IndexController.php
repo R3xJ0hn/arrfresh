@@ -21,31 +21,23 @@ class IndexController extends Controller
         $subcategories = SubCategory::orderBy('subcategory_name','ASC')->get();
         $sliders = Slider::where('status',1)->orderBy('id','DESC')->limit(3)->get();
 
-        //TODO: Give Specific Data only
+        $new_arrival_products = Product::where('product_available_stock','>',0)->where('product_status',1)->where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
 
-        $featured_products = Product::where('product_status_featured',1)->orderBy('updated_at','ASC')->limit(6)->get();
-        $new_arrival_products = Product::where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
 
-        $new_products = Product::where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
-    	$hot_deal_products = Product::where('product_status_hotdeals',1)->where('product_discount_price','!=',NULL)->orderBy('updated_at','ASC')->limit(3)->get();
+        $featured_products = Product::where('product_status',1)->where('product_status_featured',1)->orderBy('updated_at','ASC')->limit(6)->get();
+
+        $new_products = Product::where('product_status',1)->where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
+    	$hot_deal_products =  Product::where('product_status',1)->where('product_status_hotdeals',1)->where('product_discount_price','!=',NULL)->orderBy('updated_at','ASC')->limit(3)->get();
 
         // $special_offer = Product::where('special_offer',1)->orderBy('id','DESC')->limit(6)->get();
-    	$special_deals = Product::where('product_status_specialdeals',1)->orderBy('updated_at','ASC')->limit(3)->get();
+    	$special_deals =  Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('updated_at','ASC')->limit(3)->get();
+        $best_seller = Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('product_purchased_cnt','ASC')->limit(8)->get();
 
+        $skip_category = Category::inRandomOrder()->first();
+    	$skip_category_products =  Product::where('product_status',1)->where('category_id',$skip_category->id)->orderBy('id','DESC')->get();
 
-        // $skip_category_0 = Category::skip(0)->first();
-    	// $skip_product_0 = Product::where('status',1)->where('category_id',$skip_category_0->id)->orderBy('id','DESC')->get();
-
-    	// $skip_category_1 = Category::skip(1)->first();
-    	// $skip_product_1 = Product::where('status',1)->where('category_id',$skip_category_1->id)->orderBy('id','DESC')->get();
-
-    	// $skip_brand_1 = Brand::skip(1)->first();
-    	// $skip_brand_product_1 = Product::where('status',1)->where('brand_id',$skip_brand_1->id)->orderBy('id','DESC')->get();
-
-
-        return view('frontend.index', compact('categories','subcategories','sliders','new_products','featured_products','new_arrival_products','hot_deal_products','special_deals'));
+        return view('frontend.index', compact('categories','subcategories','sliders','new_products','featured_products','new_arrival_products','hot_deal_products','special_deals', 'skip_category','skip_category_products','best_seller'));
     }
-
 
 	public function ProductDetails($id,$slug){
 		$product = Product::findOrFail($id);

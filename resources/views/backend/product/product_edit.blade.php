@@ -186,7 +186,7 @@
                                     <div class="form-group">
                                         <h5>Stock</h5>
                                         <div class="controls">
-                                            <input type="number" name="product_stock" class="form-control" value="{{ $products->product_stock}}">
+                                            <input type="number" name="product_stock" class="form-control" value="{{ $products->product_total_stock}}">
                                         </div>
                                         @error('product_stock')
                                         <span id="invalidInput" class="text-danger">{{ $message}}</span>
