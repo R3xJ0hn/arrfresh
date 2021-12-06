@@ -31,7 +31,8 @@
 					<div class="form-group">
 					  <h5>Site Logo <span class="text-danger"> </span></h5>
 					  <div class="controls">
-						<input id="logo" type="file" name="logo" class="form-control" onchange="ChangeLogo()">
+						<input type="hidden" name="old_logo" value="{{$setting->logo}}">
+						<input id="logo" type="file" name="logo" accept="image/*"  class="form-control" onchange="ChangeLogo()">
 					  </div>
 					</div>
 
@@ -51,10 +52,7 @@
 						</div>
 					  </div>
 
-				</div> <!-- end cold md 6 -->
-
-				<div class="col-md-6">
-
+					  
 					<div class="form-group">
 						<h5>Email <span class="text-danger">*</span></h5>
 						<div class="controls">
@@ -82,6 +80,58 @@
 						  <input type="text" name="phone_two" class="form-control" value="{{ $setting->phone_two }}">
 					  </div>
 					  </div>
+
+				</div> <!-- end cold md 6 -->
+
+				<div class="col-md-6">
+
+					{{-- BANNER ONE --}}
+					<div class="form-group">
+						<div  style="text-align:center; width:100%">
+							<img id="logoImg" src="{{asset($setting->banner1)}}" style="width: 130px; height: 39px;" alt="logo">
+						</div>
+					</div>
+
+					<div class="form-group">
+					  <h5>Banner1<span class="text-danger"> </span></h5>
+					  <div class="controls">
+						<input type="hidden" name="old_banner1" value="{{$setting->banner1}}">
+						<input id="logo" type="file" name="banner1" accept="image/*"  class="form-control" onchange="ChangeLogo()">
+					  </div>
+					</div>
+					<br>
+
+					{{-- BANNER TWO --}}
+					<div class="form-group">
+						<div  style="text-align:center; width:100%">
+							<img id="logoImg" src="{{asset($setting->banner2)}}" style="width: 130px; height: 39px;" alt="logo">
+						</div>
+					</div>
+
+					<div class="form-group">
+					  <h5>Banner2 <span class="text-danger"> </span></h5>
+					  <div class="controls">
+						 	<input type="hidden" name="old_banner2" value="{{$setting->banner2}}">
+							<input id="logo" type="file" name="banner2" accept="image/*"  class="form-control" onchange="ChangeLogo()">
+					  </div>
+					</div>
+					<br>
+
+					{{-- BANNER THREE --}}
+					<div class="form-group">
+						<div  style="text-align:center; width:100%">
+							<img id="logoImg" src="{{asset($setting->banner3)}}" style="width: 130px; height: 39px;" alt="logo">
+						</div>
+					</div>
+
+					<div class="form-group">
+						<h5>Banner3 <span class="text-danger"> </span></h5>
+						<div class="controls">
+							<input type="hidden" name="old_banner3" value="{{$setting->banner3}}">
+							<input id="logo" type="file" name="banner3" accept="image/*"  class="form-control" onchange="ChangeLogo()">
+						</div>
+					</div>
+
 					  
 					<div class="text-xs-right">
 						<input type="submit" class="btn btn-rounded btn-primary mb-5 pull-right" value="Update">
@@ -106,7 +156,6 @@
 
 <script>	
 	function ChangeLogo(){
-		alert()
 		var file = $('#logo')[0];
 		if(file){
 			var reader = new FileReader();

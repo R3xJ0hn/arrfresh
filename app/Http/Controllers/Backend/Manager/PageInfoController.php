@@ -22,49 +22,91 @@ class PageInfoController extends Controller
    public function SiteSettingUpdate(Request $request){
     	
     	$setting_id = $request->id;
+        $setting = self::GetSettingInfo();
+
+        SiteSetting::findOrFail($request->id)->update([
+            'phone_one' => $request->phone_one,
+            'phone_two' => $request->phone_two,
+            'email' => $request->email,
+            'company_name' => $request->company_name,
+            'company_address' => $request->company_address,
+            'facebook' => $request->facebook,
+        ]);
 
     	if ($request->file('logo')) {
+
+            if(!empty($setting->logo)){
+                $old_img = $request->old_logo;
+                unlink($old_img);
+            }
+
             $image = $request->file('logo');
             $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
             Image::make($image)->resize(139,36)->save('upload/logo/'.$name_gen);
             $save_url = 'upload/logo/'.$name_gen;
-
             SiteSetting::findOrFail($setting_id)->update([
-            'phone_one' => $request->phone_one,
-            'phone_two' => $request->phone_two,
-            'email' => $request->email,
-            'company_name' => $request->company_name,
-            'company_address' => $request->company_address,
-            'facebook' => $request->facebook,
             'logo' => $save_url,
-
             ]);
+    	}
+        
+    	if ($request->file('banner1')) {
 
-	    $notification = array(
-			'message' => 'Setting Updated with Image Successfully',
-			'alert-type' => 'info'
-		);
+            if(!empty($setting->banner1)){
+                $old_img = $request->old_banner1;
+                unlink($old_img);
+            }
 
-		return redirect()->back()->with($notification);
+            $image = $request->file('banner1');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(848,201)->save('upload/banners/'.$name_gen);
+            $save_url = 'upload/banners/'.$name_gen;
+            SiteSetting::findOrFail($setting_id)->update([
+            'banner1' => $save_url,
+            ]);
+    	}
 
-    	}else{
+                
+    	if ($request->file('banner2')) {
+    
+            if(!empty($setting->banner2)){
+                $old_img = $request->old_banner2;
+                unlink($old_img);
+            }
+
+            $image = $request->file('banner2');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(848,201)->save('upload/banners/'.$name_gen);
+            $save_url = 'upload/banners/'.$name_gen;
 
             SiteSetting::findOrFail($setting_id)->update([
-            'phone_one' => $request->phone_one,
-            'phone_two' => $request->phone_two,
-            'email' => $request->email,
-            'company_name' => $request->company_name,
-            'company_address' => $request->company_address,
-            'facebook' => $request->facebook,
+            'banner2' => $save_url,
             ]);
+    	}
+                
+    	if ($request->file('banner3')) {
+               
+            if(!empty($setting->banner3)){
+                $old_img = $request->old_banner3;
+                unlink($old_img);
+            }
 
-            $notification = array(
-                'message' => 'Setting Updated Successfully',
-                'alert-type' => 'info'
-            );
+            $image = $request->file('banner3');
+            $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+            Image::make($image)->resize(848,201)->save('upload/banners/'.$name_gen);
+            $save_url = 'upload/banners/'.$name_gen;
 
-		    return redirect()->back()->with($notification);
+            SiteSetting::findOrFail($setting_id)->update([
+            'banner3' => $save_url,
+            ]);
+    	}
 
-    	} // end else 
+        $notification = array(
+            'message' => 'Setting Updated Successfully',
+            'alert-type' => 'info'
+        );
+
+        return redirect()->back()->with($notification);
     } // end method 
+
+
 }

@@ -292,7 +292,7 @@ class OrderController extends Controller
     }
 
 
-    public function VerifyToQCOrders(Type $var = null)
+    public function VerifyToQCOrders()
     {
         $order = Order::where('status','Picked')->first();
         if(!$order){
