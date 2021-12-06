@@ -112,7 +112,7 @@
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li class="{{ ($route == 'categories')? 'active':'' }}">
+                <li class="{{ ($route == 'pageInfos')? 'active':'' }}">
                     <a href="{{ route('pageInfos')}}"><i class="ti-more"></i>Page Informations</a>
                 </li>
                 <li class="{{ ($route == 'sliders')? 'active':'' }}">

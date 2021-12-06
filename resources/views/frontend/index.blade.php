@@ -424,9 +424,10 @@ $settings= PageInfoController::GetSettingInfo();
                                         <div class="product-micro">
                                             <div class="row product-micro-row">
                                                 <div class="col col-xs-5">
+
                                                     <div class="product-image">
-                                                        <div class="image"> <a href="#"> <img
-                                                                    src="{{asset('assets/frontend/images/products/p20.jpg')}}"
+                                                        <div class="image"> <a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug)}}"> <img
+                                                                    src="{{asset($product->product_thumbnail)}}"
                                                                     alt=""> </a> </div>
                                                         <!-- /.image -->
 
@@ -436,12 +437,33 @@ $settings= PageInfoController::GetSettingInfo();
                                                 <!-- /.col -->
                                                 <div class="col2 col-xs-7">
                                                     <div class="product-info">
-                                                        <h3 class="name"><a href="#">{{$product->product_name}}</a>
+                                                        <h3 class="name"><a href="{{ url('product/details/'.$product->id.'/'.$product->product_slug)}}">
+                                                            {{$product->product_name}}
+                                                            {{ strtolower($product->product_size) }}
+                                                        </a>
                                                         </h3>
                                                         <div class="rating rateit-small"></div>
-                                                        <div class="product-price"> <span class="price"> $450.99
-                                                            </span>
+
+
+                                                        <div class="product-price">
+                                                            @php
+                                                            $discount = $product->product_discount_price;
+                                                            @endphp
+        
+                                                            @if ($discount == 0)
+                                                            <span class="price"> ₱
+                                                                {{number_format($product->product_selling_price,2)}} </span>
+                                                            @else
+                                                            <span class="price"> ₱ {{number_format($discount,2)}} </span>
+                                                            <span class="price-before-discount"> ₱
+                                                                {{number_format($product->product_selling_price,2)}} </span>
+                                                            <span>
+                                                                -{{number_format(100-($discount/$product->product_selling_price)
+                                                                * 100)}}%</span>
+                                                            @endif
+        
                                                         </div>
+
                                                         <!-- /.product-price -->
 
                                                     </div>
