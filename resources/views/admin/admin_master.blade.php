@@ -56,7 +56,6 @@
     <script src=" {{ asset('assets/assets/icons/feather-icons/feather.min.js') }}"></script>
     <script src=" {{ asset('assets/assets/vendor_components/easypiechart/dist/jquery.easypiechart.js') }}"></script>
     <script src=" {{ asset('assets/assets/vendor_components/apexcharts-bundle/irregular-data-series.js') }}"></script>
-    {{-- <script src=" {{ asset('assets/assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script> --}}
     <script src=" {{ asset('assets/assets/vendor_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js') }}"></script>
 
     <script src=" {{ asset('assets/assets/vendor_plugins/bootstrap-slider/bootstrap-slider.js') }}"></script>

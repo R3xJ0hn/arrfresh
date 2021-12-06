@@ -26,7 +26,6 @@ class IndexController extends Controller
         $featured_products = Product::where('product_status',1)->where('product_status_featured',1)->orderBy('updated_at','ASC')->limit(6)->get();
 
         $new_products = Product::where('product_status',1)->where('product_status_new',1)->orderBy('updated_at','ASC')->limit(6)->get();
-    	$hot_deal_products =  Product::where('product_status',1)->where('product_status_hotdeals',1)->where('product_discount_price','!=',NULL)->orderBy('updated_at','ASC')->limit(3)->get();
 
     	$special_deals =  Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('updated_at','ASC')->limit(3)->get();
         $best_seller = Product::where('product_status',1)->where('product_status_specialdeals',1)->orderBy('product_purchased_cnt','ASC')->limit(6)->get();
@@ -34,7 +33,7 @@ class IndexController extends Controller
         $skip_category = Category::inRandomOrder()->first();
     	$skip_category_products =  Product::where('product_status',1)->where('category_id',$skip_category->id)->orderBy('id','DESC')->get();
 
-        return view('frontend.index', compact('categories','subcategories','sliders','new_products','featured_products','new_arrival_products','hot_deal_products','special_deals', 'skip_category','skip_category_products','best_seller'));
+        return view('frontend.index', compact('categories','subcategories','sliders','new_products','featured_products','new_arrival_products','special_deals', 'skip_category','skip_category_products','best_seller'));
     }
 
 	public function ProductDetails($id,$slug){

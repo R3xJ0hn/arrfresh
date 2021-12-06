@@ -15,6 +15,11 @@ use Image;
 
 class ProductController extends Controller
 {
+  Public static function HotDealsData()
+  { 
+    return Product::where('product_status',1)->where('product_status_hotdeals',1)->where('product_discount_price','!=',NULL)->orderBy('updated_at','ASC')->limit(3)->get();
+  }
+
     public function AddProduct(){
         $categories = Category::latest()->get();
         $brands = Brand::latest()->get();
