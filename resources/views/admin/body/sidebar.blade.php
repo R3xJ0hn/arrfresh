@@ -1,6 +1,8 @@
 @php
+    use App\Http\Controllers\Backend\Manager\PageInfoController;
     $prefix = Request::route()->getPrefix();
     $route =Route::current()->getName();
+	$settings= PageInfoController::GetSettingInfo();
 @endphp
 
 <aside class="main-sidebar">
@@ -10,10 +12,9 @@
       <div class="user-profile">
           <div class="ulogo">
               <a href="{{url('/admin/dashboard')}}">
-                  <!-- logo for regular state and mobile devices -->
                   <div class="d-flex align-items-center justify-content-center">
-                      <img src="../images/logo-dark.png" alt="">
-                      <h3><b>Grocery</b> Admin</h3>
+                      <img src="{{asset($settings->logo)}}" alt="">
+                     
                   </div>
               </a>
           </div>
