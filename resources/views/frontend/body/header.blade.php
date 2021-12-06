@@ -1,3 +1,8 @@
+@php
+  use App\Http\Controllers\Backend\Manager\PageInfoController;
+	$settings= PageInfoController::GetSettingInfo();
+@endphp
+
 <header class="header-style-1"> 
   
     <!-- ============================================== TOP MENU ============================================== -->
@@ -10,7 +15,6 @@
               @auth
               <li><a href="{{ route('user.wishlist')}}"><i class="icon fa fa-heart"></i>Wishlist</a></li>
               <li><a href="{{ route('user.cart')}}"><i class="icon fa fa-shopping-cart"></i>My Cart</a></li>
-              {{-- <li><a href="#"><i class="icon fa fa-check"></i>Checkout</a></li> --}}
               <li><a href="{{route('user.profile')}}"><i class="icon fa fa-user"></i>My Account</a></li>
               @else
               <li><a href="{{route('login')}}"><i class="icon fa fa-lock"></i>Login</a></li>

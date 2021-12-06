@@ -9,13 +9,6 @@
                 @include('frontend.common.user_sidebar');
             </div>
 
-            <div class="col-lg-9"  >
-                
-
-           
-           
-            </div>
-
         </div>
     </div>
     <!-- end container-->

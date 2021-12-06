@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Backend\Manager;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SiteSetting;
+use Image;
 
 class PageInfoController extends Controller
 {
-    public function SiteSetting(){
 
-    	$setting = SiteSetting::find(1);
-    	return view('backend.pageinfo.setting_update',compact('setting'));
+    public static function GetSettingInfo(){
+    return SiteSetting::find(1);
     }
 
+    public function SiteSetting(){
+    	$setting = self::GetSettingInfo();
+    	return view('backend.pageinfo.setting_update',compact('setting'));
+    }
 
    public function SiteSettingUpdate(Request $request){
     	
