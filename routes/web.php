@@ -108,10 +108,8 @@ Route::prefix('settings')->group(function(){
     Route::get('/sliders/delete/{id}', [SliderController::class, 'SliderDelete'])->name('slider.delete');
     Route::get('/sliders/inactive/{id}', [SliderController::class, 'SliderInactive'])->name('slider.inactive');
     Route::get('/sliders/active/{id}', [SliderController::class, 'SliderActive'])->name('slider.active');
-
     Route::get('/pageInfo', [PageInfoController::class, 'SiteSetting'])->name('pageInfos');
     Route::post('/pageInfo/update', [PageInfoController::class, 'SiteSettingUpdate'])->name('update.sitesetting');
-
 });
 
 
@@ -188,9 +186,6 @@ Route::group(['prefix'=>'user','middleware' => ['user','auth'],'namespace'=>'Use
  Route::prefix('orders')->group(function(){
     Route::get('/view/{order_id}', [OrderController::class, 'OrderViewDetails'])->name('order.view');
     Route::get('/dl/{order_id}', [OrderController::class, 'InvoiceDownload'])->name('dl.invoice');
-
-
-   
     Route::get('/pending', [OrderController::class, 'PendingOrders'])->name('pending-orders');
 
     Route::get('/pick/{order_id}', [OrderController::class, 'BeginToPickOrder'])->name('begin-picking');
@@ -210,13 +205,18 @@ Route::group(['prefix'=>'user','middleware' => ['user','auth'],'namespace'=>'Use
     Route::get('/delivered', [OrderController::class, 'DeliveredParcel'])->name('delivered-parcel');
 });
 
-
-
-
-
 //Utilities
 Route::get('/subcategory/data/{category_id}',[SubCategoryController::class,'GetSubCategory'])->name('get.subcategory');
 Route::get('/product/view/{id}',[IndexController::class,'GetModalAddToCartProductData']);
+
+
+
+// /// Product Search Route 
+// Route::post('/search', [IndexController::class, 'ProductSearch'])->name('product.search');
+
+// // Advance Search Routes 
+// Route::post('search-product', [IndexController::class, 'SearchProduct']);
+
 
 
 
@@ -281,15 +281,9 @@ Route::get('/product/view/{id}',[IndexController::class,'GetModalAddToCartProduc
 
 // Route::get('/product', [ProductController::class, 'ProductStock'])->name('product.stock');
  
- 
 // });
 
 
-// /// Product Search Route 
-// Route::post('/search', [IndexController::class, 'ProductSearch'])->name('product.search');
-
-// // Advance Search Routes 
-// Route::post('search-product', [IndexController::class, 'SearchProduct']);
 
 
 // // Shop Page Route 
