@@ -100,7 +100,6 @@ Route::prefix('products')->group(function(){
 });
 
 //-------------------- ADMIN PAGE ----------------------//
-
 Route::prefix('settings')->group(function(){
     Route::get('/sliders/view', [SliderController::class, 'SliderView'])->name('sliders');
     Route::post('/sliders/add_store', [SliderController::class, 'SliderAdd'])->name('slider.add.store');
@@ -209,13 +208,11 @@ Route::group(['prefix'=>'user','middleware' => ['user','auth'],'namespace'=>'Use
 Route::get('/subcategory/data/{category_id}',[SubCategoryController::class,'GetSubCategory'])->name('get.subcategory');
 Route::get('/product/view/{id}',[IndexController::class,'GetModalAddToCartProductData']);
 
+/// Product Search Route 
+Route::post('/search', [IndexController::class, 'ProductSearch'])->name('product.search');
 
-
-// /// Product Search Route 
-// Route::post('/search', [IndexController::class, 'ProductSearch'])->name('product.search');
-
-// // Advance Search Routes 
-// Route::post('search-product', [IndexController::class, 'SearchProduct']);
+// Advance Search Routes 
+Route::post('search-product', [IndexController::class, 'SearchProduct']);
 
 
 

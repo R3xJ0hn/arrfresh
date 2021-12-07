@@ -140,4 +140,34 @@ class IndexController extends Controller
             return redirect()->back();
         }
     }
+
+
+
+    
+    //Product Seach 
+	public function ProductSearch(Request $request){
+
+		$request->validate(["search" => "required"]);
+
+		$item = $request->search;
+        $categories = Category::orderBy('category_name','ASC')->get();
+		$products = Product::where('product_name','LIKE',"%$item%")->get();
+		return view('frontend.product.search',compact('products','categories'));
+
+	} // end method 
+
+
+	///// Advance Search Options 
+
+	public function SearchProduct(Request $request){
+
+		$request->validate(["search" => "required"]);
+
+		$item = $request->search;		 
+		$products = Product::where('product_name','LIKE',"%$item%")->select('product_name','product_thumbnail','selling_price','id','product_slug')->limit(5)->get();
+		return view('frontend.product.search_product',compact('products'));
+
+	} // end method 
+
+
 }

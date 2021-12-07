@@ -48,26 +48,30 @@
             <!-- /.contact-row --> 
             <!-- ============================================================= SEARCH AREA ============================================================= -->
             <div class="search-area">
-              <form>
+              <form method="post" action="{{ route('product.search') }}">
+                @csrf
                 <div class="control-group">
-                  @php
-                      $categories = App\Models\Category::orderBy('category_name','ASC')->get();
-                  @endphp
-                  <ul class="categories-filter animate-dropdown">
-                    <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories<b class="caret"></b></a>
-                      <ul class="dropdown-menu" role="menu" >
+                    @php
+                        $categories = App\Models\Category::orderBy('category_name','ASC')->get();
+                    @endphp
 
-                        @foreach ($categories as $category)
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">{{ $category->category_name}}</a></li>
-                        @endforeach
+                    <ul class="categories-filter animate-dropdown">
+                      <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories<b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="menu" >
 
-                      </ul>
-                    </li>
-                  </ul>
+                          @foreach ($categories as $category)
+                          <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">{{ $category->category_name}}</a></li>
+                          @endforeach
 
-                  <input class="search-field" placeholder="Search here..." />
-                  <a class="search-button" href="#" ></a> </div>
+                        </ul>
+                      </li>
+                    </ul>
+
+                  <input class="search-field" onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" placeholder="Search here..." />
+                  <button class="search-button" type="submit"></button>
+                 </div>
               </form>
+              <div id="searchProducts"></div>
             </div>
             <!-- /.search-area --> 
             <!-- ============================================================= SEARCH AREA : END ============================================================= --> </div>
@@ -119,7 +123,7 @@
               </ul>
               <!-- /.dropdown-menu--> 
             </div>
-            <!-- ============================================================= SHOPPING CART DROPDOWN : END============================================================= --> </div>
+            <!-- ============================================================= SHOPPING CART DROPDOWN: END============================================================= --> </div>
             <!-- /.top-cart-row --> 
 
         </div>
@@ -132,3 +136,34 @@
     <!-- /.main-header --> 
     
   </header>
+
+  
+<style>
+  
+  .search-area{
+    position: relative;
+  }
+  
+    #searchProducts {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: #ffffff;
+      z-index: 999;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+  </style>
+  
+  <script>
+    function search_result_hide(){
+      $("#searchProducts").slideUp();
+    }
+  
+     function search_result_show(){
+        $("#searchProducts").slideDown();
+    }
+  
+  
+  </script>
