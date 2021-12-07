@@ -8,13 +8,15 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Controllers\Backend\Manager\CouponController;
 use App\Http\Controllers\Frontend\CartController;
-use Darryldecode\Cart\Facades\CartFacade;
 use App\Mail\OrderMail;
 use App\Models\ShippingDetails;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\Product;
+use App\Models\SiteSetting;
 use Carbon\Carbon; 
 use Auth;
+use Cart;
 
 class PaymentController extends Controller
 {
@@ -158,8 +160,9 @@ class PaymentController extends Controller
 
     private function SaveOrder($charge,$method){
         $userId = (int)$charge->metadata->user/$this->hash;
-        $cartTotal = CartFacade::session($userId)->getTotal();
-        $cart_unit = CartFacade::session($userId)->getTotalQuantity();
+        $carts = Cart::session($userId)->getContent();
+        $cartTotal = Cart::session($userId)->getTotal();
+        $cart_unit = Cart::session($userId)->getTotalQuantity();
         $shipping_id = ShippingDetails::where('user_id',$userId)->first()->id;
 
         $order_id = Order::insertGetId([
@@ -180,7 +183,6 @@ class PaymentController extends Controller
             'created_at' => Carbon::now(),	 
             ]);
 
-        $carts = CartFacade::session($userId)->getContent();
         foreach ($carts as $cart) {
             OrderItems::insert([
                 'order_id' => $order_id, 
@@ -191,6 +193,12 @@ class PaymentController extends Controller
                 'sum' => $cart->price,
                 'created_at' => Carbon::now(),
             ]);
+
+            $product = Product::find( $cart->attributes->id)->first();
+            Product::findOrFail( $cart->attributes->id)->update([
+                'product_total_stock' =>  ($product->product_total_stock) -(int)$cart->quantity,
+             ]);
+
         }
 
         //Start Send Email 
@@ -207,6 +215,7 @@ class PaymentController extends Controller
                 'date' => $invoice->created_at,
                 'payment_method' => $invoice->payment_method,
                 'transaction_id' => $invoice->transaction_id,
+                'company_name' => SiteSetting::find(1)->company_name,
             ];
 
             Mail::to($info->user_email)->send(new OrderMail($data,$cart ));
@@ -217,7 +226,7 @@ class PaymentController extends Controller
             Session::forget('coupon');
         }
 
-        CartFacade::session($userId)->clear();
+        Cart::session($userId)->clear();
 
     }
 }

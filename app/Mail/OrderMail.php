@@ -34,7 +34,7 @@ class OrderMail extends Mailable
     {
         $order = $this->data;
         $cart = $this->cart;
-        return $this->from('support@grocery.com')->view('mail.order_mail',compact('order','cart'))->subject('Email From ' . env('APP_NAME'));
+        return $this->from('support@grocery.com')->view('mail.order_mail',compact('order','cart'))->subject('Email From ' . $order['company_name']);
     }
 
 }

@@ -10,8 +10,7 @@ use App\Models\Product;
 use App\Models\ShippingZoneRegion;
 use App\Models\ShippingDetails;
 
-
-use Darryldecode\Cart\Facades\CartFacade;
+use Cart;
 use Auth;
 
 
@@ -42,8 +41,8 @@ class CartController extends Controller
             $product = Product::find($productId); 
             $userID = auth()->user()->id; 
             $rowId = 345678910 + $productId + $userID; 
-            $cart = CartFacade::session($userID)->get($rowId);
-            $productStock= $product->product_stock;
+            $cart = Cart::session($userID)->get($rowId);
+            $productStock= $product->product_available_stock;
             $qty = $this->CalcQty($cart, $request->quantity);
 
             if(!empty($this->ValidateQuantity($qty, $productStock))){
@@ -51,8 +50,13 @@ class CartController extends Controller
             }
 
             if ($product->product_discount_price == 0){
+
+                // UPDATE PRODUCT QUANTITY
+                Product::findOrFail($product->id)->update([
+                    'product_available_stock' =>  $productStock -(int)$request->quantity,
+                 ]);
     
-                CartFacade::session($userID)->add(array(
+                Cart::session($userID)->add(array(
                     'id' => $rowId,
                     'name' =>  $request->product_name, 
                     'price' => (float) $product->product_selling_price,
@@ -69,8 +73,13 @@ class CartController extends Controller
                 return response()->json(['success' =>  'Successfully Added to Your Cart.']);
     
             }else{
+
+                // UPDATE PRODUCT QUANTITY
+                Product::findOrFail($product->id)->update([
+                    'product_available_stock' =>  $productStock -(int)$request->quantity,
+                    ]);
                 
-                CartFacade::session($userID)->add(array(
+                Cart::session($userID)->add(array(
                     'id' => $rowId,
                     'name' =>  $request->product_name, 
                     'price' => (float)$product->product_discount_price,
@@ -94,16 +103,26 @@ class CartController extends Controller
 
     public function RemoveToCart($rowId){
         $userId = auth()->user()->id; 
-        CartFacade::session($userId)->remove($rowId);
-        $isCartEmpty = CartFacade::session($userId)->isEmpty();
+
+        $cart = Cart::session($userId)->get($rowId);
+        $product = Product::find($cart->attributes['id']); 
+        
+        Cart::session($userId)->remove($rowId);
+        $isCartEmpty = Cart::session($userId)->isEmpty();
+
+        // UPDATE PRODUCT QUANTITY
+        Product::findOrFail($product->id)->update([
+            'product_available_stock' =>  (int)$product->product_available_stock + (int)($cart->quantity),
+        ]);
+
         return response()->json(['success' => 'Product Remove from Cart', 'isCartEmpty' =>   $isCartEmpty ]);
     } // end mehtod 
 
     public static function ViewCart(){
         $userId = auth()->user()->id; 
-        $items = CartFacade::session($userId)->getContent();
-        $cartQty = CartFacade::session($userId)->getTotalQuantity();
-        $cartTotal = CartFacade::session($userId)->getTotal();
+        $items = Cart::session($userId)->getContent();
+        $cartQty = Cart::session($userId)->getTotalQuantity();
+        $cartTotal = Cart::session($userId)->getTotal();
         $cart =[];
 
         foreach($items as $item)
@@ -143,7 +162,7 @@ class CartController extends Controller
     public function MyCart(){
         if (Auth::check()){
             $userId = auth()->user()->id;
-            $isCartEmpty = CartFacade::session($userId)->isEmpty();
+            $isCartEmpty = Cart::session($userId)->isEmpty();
             return view('frontend.cart.view_mycart', compact('isCartEmpty'));
         }else{
             return redirect()->to('/');
@@ -153,7 +172,7 @@ class CartController extends Controller
 
     private function UpdateCartQty($rowId, $qty){
         $userId = auth()->user()->id; 
-        $item = CartFacade::session($userId)->get($rowId);
+        $item = Cart::session($userId)->get($rowId);
 
         $productStock = Product::find($item->attributes->id)->product_stock;
         $available = ($productStock-(int)($item->quantity));
@@ -162,7 +181,7 @@ class CartController extends Controller
             return response()->json($this->ValidateQuantity($qty, $productStock));
         }
 
-         CartFacade::session($userId)->update($rowId, array(
+         Cart::session($userId)->update($rowId, array(
             'quantity' => array(
                 'relative' => false,
                 'value' => $qty
@@ -175,14 +194,14 @@ class CartController extends Controller
 
     public function IncrementCartQty(Request $request){
         $userId = auth()->user()->id; 
-        $cart = CartFacade::session($userId)->get($request->row);
+        $cart = Cart::session($userId)->get($request->row);
         $qty = (int)($cart->quantity) + 1;
         return response()->json($this->UpdateCartQty($request->row,$qty));
     }
 
     public function DecrementCartQty(Request $request){
         $userId = auth()->user()->id; 
-        $cart = CartFacade::session($userId)->get($request->row);
+        $cart = Cart::session($userId)->get($request->row);
         $qty = (int)($cart->quantity) - 1;
         return response()->json($this->UpdateCartQty($request->row,$qty));
     }
@@ -198,9 +217,9 @@ public function CreateCheckout(){
 
     if (Auth::check()) {
         $userId = auth()->user()->id; 
-        $items = CartFacade::session($userId)->getContent();
+        $items = Cart::session($userId)->getContent();
 
-        if (CartFacade::getTotal() > 0) {
+        if (Cart::getTotal() > 0) {
             $userDetails = ShippingDetails::where('user_id',$userId)->first();
             $regions = ShippingZoneRegion::orderBy('region_name','ASC')->get();
             $cart = new Collection;

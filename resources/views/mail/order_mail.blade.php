@@ -463,7 +463,7 @@
             <tr>
               <td class="email-masthead">
                 <a href="https://example.com" class="f-fallback email-masthead_name">
-                    {{env('APP_NAME')}}
+                    {{$order['company_name']}}
               </a>
               </td>
             </tr>
@@ -476,7 +476,7 @@
                     <td class="content-cell">
                       <div class="f-fallback">
                         <h1>Hi {{ $order['name'] }},</h1>
-                        <p>Thanks for using {{env('APP_NAME')}}. </p>
+                        <p>Thanks for using {{$order['company_name']}}. </p>
 
                         <table class="purchase" width="100%" cellpadding="0" cellspacing="0">
                           <tr>
@@ -567,7 +567,7 @@
                 <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <tr>
                     <td class="content-cell" align="center">
-                      <p class="f-fallback sub align-center">&copy; 2021 {{ env('APP_NAME')}}. All rights reserved.</p>
+                      <p class="f-fallback sub align-center">&copy; 2021 {{ $order['company_name']}}. All rights reserved.</p>
                     </td>
                   </tr>
                 </table>

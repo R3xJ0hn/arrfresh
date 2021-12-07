@@ -9,6 +9,10 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItems; 
 use App\Models\ShippingDetails;
+use App\Models\ShippingZoneBrgy;
+use App\Models\ShippingZoneCity;
+use App\Models\ShippingZoneRegion;
+use App\Models\SiteSetting;
 
 use Auth;
 use Carbon\Carbon;
@@ -18,11 +22,15 @@ class OrderController extends Controller
 {
 
     public static function ViewInvoice($order_id){
+        $siteInfo =SiteSetting::find(1)->first();
         $order = Order::where('id',$order_id)->first();
         $orderItems = OrderItems::with('product')->where('order_id',$order_id)->get();
         $userId = $order->user_id;
         $shippingDetails = ShippingDetails::where('user_id',$userId)->first();
-        $user_address = $shippingDetails->house . ' ' . $shippingDetails->street;
+        $getBrgy = ShippingZoneBrgy::where('id', $shippingDetails->brgy_id)->first();
+        $getCity = ShippingZoneCity::where('id', $shippingDetails->city_id)->first();
+        $getRegion = ShippingZoneRegion::where('id', $shippingDetails->region_id)->first();
+        $user_address = $shippingDetails->house . ' ' . $shippingDetails->street . ' '. $getBrgy->brgy_name  . ', '. $getCity->city_name  . ', '. $getRegion->region_name ;
         $paid_date = "";
 
         if( $order->payment_method== "Cash On Deliver"){
@@ -48,15 +56,15 @@ class OrderController extends Controller
                 'productColor'=> $item->color,
                 'productSize'=> $item->product->product_size, 
                 'productSlug' => $item->product->product_slug, 
-                'productStock' => $item->product->product_stock, 
+                'productStock' => $item->product->product_available_stock, 
             ];
         }
 
         return array(
             'id' =>$order_id,
-            'company_name' => env('APP_NAME'),
-            'company_email' => env('MAIL_USERNAME'),
-            'company_phone' => '09876543212',
+            'company_name' => $siteInfo->company_name,
+            'company_email' => $siteInfo->company_email,
+            'company_phone' =>  $siteInfo->phone_one,
             'company_url' => env('APP_URL'),
             'user_name' =>  $shippingDetails->user_name,
             'user_email' => $shippingDetails->user_email,
