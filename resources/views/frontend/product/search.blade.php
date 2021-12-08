@@ -8,8 +8,7 @@ Product Search Page
     <div class="container">
         <div class="breadcrumb-inner">
             <ul class="list-inline list-unstyled">
-                <li><a href="#">Home</a></li>
-                <li class='active'>Handbags</li>
+                <li><a href="/">Home</a></li>
             </ul>
         </div>
         <!-- /.breadcrumb-inner -->
@@ -22,9 +21,11 @@ Product Search Page
         <div class='row'>
             <div class='col-md-3 sidebar'>
 
-                <!-- ===== == TOP NAVIGATION ======= ==== -->
-                @include('frontend.common.vertical_menu')
-                <!-- = ==== TOP NAVIGATION : END === ===== -->
+                <!-- ===== == CATEGORY NAVIGATION ======= ==== -->
+                @include('frontend.common.side_category_menu')
+                <!-- = ==== CATEGORY NAVIGATION : END === ===== -->
+
+
                 <div class="sidebar-module-container">
                     <div class="sidebar-filter">
                         <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
