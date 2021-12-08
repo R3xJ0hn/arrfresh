@@ -25,7 +25,6 @@
           </div>
           <!-- /.cnt-account -->
           
-
           <div class="clearfix"></div>
         </div>
         <!-- /.header-top-inner --> 
@@ -48,29 +47,14 @@
             <!-- /.contact-row --> 
             <!-- ============================================================= SEARCH AREA ============================================================= -->
             <div class="search-area">
-              <form method="post" action="{{ route('product.search') }}">
-                @csrf
                 <div class="control-group">
-                    @php
-                        $categories = App\Models\Category::orderBy('category_name','ASC')->get();
-                    @endphp
 
-                    <ul class="categories-filter animate-dropdown">
-                      <li class="dropdown"> <a class="dropdown-toggle"  data-toggle="dropdown" href="category.html">Categories<b class="caret"></b></a>
-                        <ul class="dropdown-menu" role="menu" >
+                  <form action="{{ route('product.search') }}"  method="get">
+                    <input class="search-field" onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" placeholder="Search here..." style="width: 80%" />
+                    <input  class="search-button" type="submit" type="text">
+                  </form>
 
-                          @foreach ($categories as $category)
-                          <li role="presentation"><a role="menuitem" tabindex="-1" href="category.html">{{ $category->category_name}}</a></li>
-                          @endforeach
-
-                        </ul>
-                      </li>
-                    </ul>
-
-                  <input class="search-field" onfocus="search_result_show()" onblur="search_result_hide()" id="search" name="search" placeholder="Search here..." />
-                  <button class="search-button" type="submit"></button>
-                 </div>
-              </form>
+                </div>
               <div id="searchProducts"></div>
             </div>
             <!-- /.search-area --> 
@@ -164,6 +148,18 @@
      function search_result_show(){
         $("#searchProducts").slideDown();
     }
-  
-  
+
+    // var searchBar = document.getElementById("search");
+    // searchBar.addEventListener("keyup", function(e){
+    //   if(e.keyCode === 13){
+    //     searchClick()
+    //     e.preventDefault();
+    //   }
+    // })
+
+    // function searchClick(){
+    //   alert()
+    //   "{{ route('product.search') }}"
+    // }
+    
   </script>

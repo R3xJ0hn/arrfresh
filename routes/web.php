@@ -208,81 +208,11 @@ Route::group(['prefix'=>'user','middleware' => ['user','auth'],'namespace'=>'Use
 Route::get('/subcategory/data/{category_id}',[SubCategoryController::class,'GetSubCategory'])->name('get.subcategory');
 Route::get('/product/view/{id}',[IndexController::class,'GetModalAddToCartProductData']);
 
-/// Product Search Route 
-Route::post('/search', [IndexController::class, 'ProductSearch'])->name('product.search');
+/// Search Product Route
+Route::get('/search/product', [IndexController::class, 'ProductSearch'])->name('product.search');
+
+/// Search Product by Categories
+Route::get('/categories/{id}', [IndexController::class, 'GetProductsBySubCategory']);
 
 // Advance Search Routes 
-Route::post('search-product', [IndexController::class, 'SearchProduct']);
-
-
-
-
-// // Frontend Product Tags Page 
-// Route::get('/product/tag/{tag}', [IndexController::class, 'TagWiseProduct']);
-
-// // Frontend SubCategory wise Data
-// Route::get('/subcategory/product/{subcat_id}/{slug}', [IndexController::class, 'SubCatWiseProduct']);
-
-// // Frontend Sub-SubCategory wise Data
-// Route::get('/subsubcategory/product/{subsubcat_id}/{slug}', [IndexController::class, 'SubSubCatWiseProduct']);
-
-
-
-// // Admin Reports Routes 
-// Route::prefix('reports')->group(function(){
-
-// Route::get('/view', [ReportController::class, 'ReportView'])->name('all-reports');
-
-// Route::post('/search/by/date', [ReportController::class, 'ReportByDate'])->name('search-by-date');
-
-// Route::post('/search/by/month', [ReportController::class, 'ReportByMonth'])->name('search-by-month');
-
-// Route::post('/search/by/year', [ReportController::class, 'ReportByYear'])->name('search-by-year');
-
-// });
-
-
-// // Admin Return Order Routes 
-// Route::prefix('return')->group(function(){
-
-// Route::get('/admin/request', [ReturnController::class, 'ReturnRequest'])->name('return.request');
-
-// Route::get('/admin/return/approve/{order_id}', [ReturnController::class, 'ReturnRequestApprove'])->name('return.approve');
-
-// Route::get('/admin/all/request', [ReturnController::class, 'ReturnAllRequest'])->name('all.request');
- 
-// });
-
-// /// Frontend Product Review Routes
-
-// Route::post('/review/store', [ReviewController::class, 'ReviewStore'])->name('review.store');
-
-
-// // Admin Manage Review Routes 
-// Route::prefix('review')->group(function(){
-
-// Route::get('/pending', [ReviewController::class, 'PendingReview'])->name('pending.review');
-
-// Route::get('/admin/approve/{id}', [ReviewController::class, 'ReviewApprove'])->name('review.approve');
-
-// Route::get('/publish', [ReviewController::class, 'PublishReview'])->name('publish.review');
-
-// Route::get('/delete/{id}', [ReviewController::class, 'DeleteReview'])->name('delete.review');
- 
-// });
-
-
-
-// // Admin Manage Stock Routes 
-// Route::prefix('stock')->group(function(){
-
-// Route::get('/product', [ProductController::class, 'ProductStock'])->name('product.stock');
- 
-// });
-
-
-
-
-// // Shop Page Route 
-// Route::get('/shop', [ShopController::class, 'ShopPage'])->name('shop.page');
-// Route::post('/shop/filter', [ShopController::class, 'ShopFilter'])->name('shop.filter');
+Route::get('/search/product/filter', [IndexController::class, 'AdvanceSearch'])->name('advance.search');

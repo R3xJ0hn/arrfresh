@@ -16,9 +16,9 @@ $settings= PageInfoController::GetSettingInfo();
                 @include('frontend.common.side_category_menu')
                 <!-- = ==== CATEGORY NAVIGATION : END === ===== -->
 
-                <!-- ============================================== HOT DEALS ============================================== -->
+                <!-- ===== == HOT DEALS ======= ==== -->
                 @include('frontend.common.hot_deals')
-                <!-- ============================================== HOT DEALS: END ============================================== -->
+                <!-- ===== == HOT DEALS: END ======= ==== -->
 
                 <!-- ============================================== PRODUCT TAGS ============================================== -->
                 <div class="sidebar-widget product-tag wow fadeInUp">
@@ -39,8 +39,8 @@ $settings= PageInfoController::GetSettingInfo();
                 </div>
                 <!-- /.sidebar-widget -->
                 <!-- ============================================== PRODUCT TAGS : END ============================================== -->
-                <!-- ============================================== SPECIAL DEALS ============================================== -->
 
+                <!-- ============================================== SPECIAL DEALS ============================================== -->
                 <div class="sidebar-widget outer-bottom-small wow fadeInUp">
                     <h3 class="section-title">Special Deals</h3>
                     <div class="sidebar-widget-body outer-top-xs">
@@ -745,6 +745,4 @@ $settings= PageInfoController::GetSettingInfo();
     </div>
     <!-- /.container -->
 </div>
-
-
 @endsection

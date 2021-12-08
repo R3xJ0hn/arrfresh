@@ -47,9 +47,6 @@ class IndexController extends Controller
 		$cat_id = $product->category_id;
         $product_cat_name = Category::select('category_name')->where('id',$cat_id)->first()->category_name;
 
-        // $product_subcat_name = SubCategory::select('subcategory_name')->where('id',$product->subcategory_id)->first()->subcategory_name;
-        // $product_subcat_name = SubCategory::where('id',$product->subcategory_id)->get()->first()->subcategory_name;
-
 		$relatedProduct = Product::where('category_id',$cat_id)->where('id','!=',$id)->orderBy('id','DESC')->get();
 	 	return view('frontend.product.product_details',compact('product','multiImag','product_cat_name','product_color','relatedProduct'));
 
@@ -141,33 +138,70 @@ class IndexController extends Controller
         }
     }
 
-
-
-    
     //Product Seach 
 	public function ProductSearch(Request $request){
-
 		$request->validate(["search" => "required"]);
-
 		$item = $request->search;
         $categories = Category::orderBy('category_name','ASC')->get();
 		$products = Product::where('product_name','LIKE',"%$item%")->get();
 		return view('frontend.product.search',compact('products','categories'));
-
 	} // end method 
 
+    public function GetProductsBySubCategory($subcategory){
+        $categories = Category::orderBy('category_name','ASC')->get();
+		$products = Product::where('subcategory_id',$subcategory)->get();
+		return view('frontend.product.search',compact('products','categories'));
+    }
+    
+    public function AdvanceSearch(Request $request){
+        $subcategory = $request->subcategory;
+        $min = $request->range_min;
+        $max = $request->range_max;
+        $categories = Category::orderBy('category_name','ASC')->get();
+		$products = $this->GetRangePriceProducts($min, $max, $subcategory);
+		return view('frontend.product.search',compact('products','categories'));
+    }
 
-	///// Advance Search Options 
+    private function GetRangePriceProducts($min, $max, $subcategory)
+    {
+        if($subcategory){
+            if($min != 0 and $max != 0){
+                return Product::where('product_selling_price','>', $min)->where('product_selling_price','<', $max)->where('subcategory_id',$subcategory)->get();
+            }
+    
+            if($min != 0 and $max == 0){
+                return Product::where('product_selling_price','>', $min)->where('subcategory_id',$subcategory)->get();
+            }
+    
+            if($min == 0 and $max != 0){
+                return Product::where('product_selling_price','<', $max)->where('subcategory_id',$subcategory)->get();
+            }
+    
+            if($min == 0 and $max == 0){
+                return Product::where('subcategory_id',$subcategory)->get();
+            }
 
-	public function SearchProduct(Request $request){
+        }else{
 
-		$request->validate(["search" => "required"]);
+            if($min != 0 and $max != 0){
+                return Product::where('product_selling_price','>', $min)->where('product_selling_price','<', $max)->get();
+            }
+    
+            if($min != 0 and $max == 0){
+                return Product::where('product_selling_price','>', $min)->get();
+            }
+    
+            if($min == 0 and $max != 0){
+                return Product::where('product_selling_price','<', $max)->get();
+            }
+    
+            if($min == 0 and $max == 0){
+                return Product::get();
+            }
+        }
+    }
 
-		$item = $request->search;		 
-		$products = Product::where('product_name','LIKE',"%$item%")->select('product_name','product_thumbnail','selling_price','id','product_slug')->limit(5)->get();
-		return view('frontend.product.search_product',compact('products'));
 
-	} // end method 
 
 
 }

@@ -12,6 +12,9 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                     data-toggle="dropdown">{{$category->category_name}}</a>
 
                 @php $cnt = 0; @endphp
+                @php
+                $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
+                @endphp
                 @foreach ($subcategories as $subcategory)
                 @if ( $subcategory->category_id == $category->id)
                 @php $cnt++; @endphp
@@ -28,8 +31,12 @@ $categories = App\Models\Category::orderBy('category_name','ASC')->get();
                                 <ul class="links list-unstyled">
 
                                     @foreach ($subcategories as $subcategory)
+                                    @php
+                                        $subcategories = App\Models\SubCategory::where('category_id',$category->id)->orderBy('subcategory_name','ASC')->get();
+                                    @endphp
+
                                     @if ( $subcategory->category_id == $category->id)
-                                    <li><a href="#">{{ $subcategory->subcategory_name}}</a></li>
+                                    <li><a href="/categories/{{$subcategory->id}}">{{ $subcategory->subcategory_name}}</a></li>
                                     @endif
                                     @endforeach
 
