@@ -11,7 +11,7 @@ use Image;
 class BrandController extends Controller
 {
     public static function GetAllBrands(){
-        return Brand::latest()->get();
+        return Brand::inRandomOrder()->get();
     }
 
     public function BrandView()

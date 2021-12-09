@@ -12,10 +12,6 @@
             <img src="{{asset('upload/brand/'.$brand->brand_image_path)}}" alt=""> </a>
           </div>
         @endforeach
-        
-        
-
-
 
       </div>
       <!-- /.owl-carousel #logo-slider --> 

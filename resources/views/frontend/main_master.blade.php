@@ -262,11 +262,11 @@
                 toastr.error("{{ Session::get('message') }}");
                 break;
             case 'order_succeeded':
-                var msg = { success:'{{ Session::get('order_message') }}'}
+                var msg = { success: 'Successfully placed order. '}
                 fireToast(msg);
                 break;
             case 'order_failed':
-                alert('{{ Session::get('order_message') }}');
+                alert('Card Declined');
                 var msg = { error:'Transaction Failed'}
                 fireToast(msg);
             break;
