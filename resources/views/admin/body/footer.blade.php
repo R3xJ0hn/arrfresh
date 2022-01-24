@@ -5,9 +5,9 @@
                 <a class="nav-link" href="javascript:void(0)">FAQ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">www.grocery.com</a>
+                <a class="nav-link" href="#">{{env('APP_URL')}}</a>
             </li>
         </ul>
     </div>
-    &copy; 2020 <a href="#">Grocery</a>. All Rights Reserved.
+    &copy; 2020 <a href="#">{{env('APP_NAME')}}</a>. All Rights Reserved.
 </footer>

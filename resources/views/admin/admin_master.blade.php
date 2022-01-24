@@ -10,7 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ asset('assets/backend/images/favicon.ico') }}">
 
-    <title>Grocey Admin - Dashboard</title>
+    <title>Arrfresh Admin - Dashboard</title>
 
     <!-- Vendors Style-->
     <link rel="stylesheet" href="{{ asset('assets/backend/css/vendors_css.css') }}">
