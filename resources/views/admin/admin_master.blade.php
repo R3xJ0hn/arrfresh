@@ -26,8 +26,8 @@
 
 </head>
 
-<body class="hold-transition dark-skin sidebar-mini theme-primary fixed">
-{{-- <body class="light-skin sidebar-mini theme-primary fixed sidebar-mini-expand-feature"> --}}
+<!-- <body class="hold-transition dark-skin sidebar-mini theme-primary fixed"> -->
+<body class="light-skin sidebar-mini theme-primary fixed sidebar-mini-expand-feature">
 
     <div class="wrapper">
 
